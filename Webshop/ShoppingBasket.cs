@@ -18,7 +18,14 @@ namespace Webshop
         public int AddToBasket(string brugernavn, int varenummer, int antal)
         {
             Database db = new();
-            db.AddToBasket(brugernavn, varenummer, antal);
+            if (antal > 0)
+            {
+                db.AddToBasket(brugernavn, varenummer, antal);
+            } else if (antal == 0)
+            {
+                db.RemoveFromBasket(brugernavn, varenummer);
+            }
+            
             BasketEntry[] varer = db.GetBasket(brugernavn);
             int totalAntal = 0;
             foreach (BasketEntry vare in varer) {
